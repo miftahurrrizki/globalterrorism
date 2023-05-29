@@ -20,7 +20,8 @@ import colorlover as cl
 # df = urllib2.urlopen(https://drive.google.com/file/d/1DeubD5b4tAckNgLmLnFYtlVaqBo1ncj-/view?usp=drive_link) # it's a file like object and works just like a file
 
 
-df = pd.read_csv(r"C:\Users\mfthr\anaconda3\envs\streamlit\GlobalTerr\globalterrorism1.csv", encoding="latin-1")
+url = 'https://github.com/miftahurrrizki/globalterrorism/blob/main/globalterrorism1.csv'
+df = pd.read_csv(url)
 
 
 
