@@ -4,7 +4,6 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
-import random
 import folium
 from streamlit_folium import st_folium
 from streamlit_folium import folium_static
@@ -18,25 +17,11 @@ import colorlover as cl
 
 
 
+# df = urllib2.urlopen(https://drive.google.com/file/d/1DeubD5b4tAckNgLmLnFYtlVaqBo1ncj-/view?usp=drive_link) # it's a file like object and works just like a file
 
 
+df = pd.read_csv(r"C:\Users\mfthr\anaconda3\envs\streamlit\GlobalTerr\globalterrorism1.csv", encoding="latin-1")
 
-df = pd.read_csv(r"C:\Users\mfthr\anaconda3\envs\streamlit\GlobalTerr\globalterrorism.csv", encoding="latin-1")
-
-#pre-processing
-
-df.rename(columns={'iyear': 'Year', 'imonth': 'Month', 'iday': 'Day', 'country_txt': 'Country', 'region_txt': 'Region', 'city': 'City', 'latitude': 'Latitude', 'longitude': 'Longitude', 'success': 'Success', 'suicide': 'Suicide',
-          'attacktype1_txt': 'AttackType', 'target1': 'Target', 'nkill': 'Killed', 'nwound': 'Wounded', 'summary': 'Summary', 'gname': 'GroupName', 'targtype1_txt': 'TargetType', 'weaptype1_txt': 'WeaponType', 'motive': 'Motive'}, inplace=True)
-df = df[['Year', 'Month', 'Day', 'Region', 'Country', 'City', 'Latitude', 'Longitude', 'GroupName', 'AttackType',
-         'WeaponType', 'Target', 'TargetType', 'Success', 'Suicide', 'Killed', 'Wounded','Motive','Summary']]
-
-df.dropna(subset=['Longitude'], inplace=True)
-df.dropna(subset=['City'], inplace=True)
-df['Target'].fillna('Unknown', inplace=True)
-df['Killed'].fillna(0, inplace=True)
-df['Wounded'].fillna(0, inplace=True)
-df = df.drop('Motive',axis=1)
-df = df.drop('Summary',axis=1)
 
 
 # total events
@@ -61,7 +46,7 @@ sub = 'Kelompok Yaudaaaaah'
 # )
 st.set_page_config(page_title = judul,
                    page_icon = ":skull:",
-                   layout = "wide",initial_sidebar_state='collapsed')
+                   layout = "wide")
 st.title(judul)
 st.caption(sub)
 
@@ -203,7 +188,7 @@ with st.container():
     
     # Membuat histogram menggunakan plotly
     fig = px.histogram(df_sorted, x='Country', y='Total Attacks',
-                       title=f'Total Aksi Teroris per Negara - Years: {", ".join(str(year) for year in selected_years)}, Countries: {", ".join(selected_countries)}',
+                       title=f'Total Aksi Teroris per Negara',
                        labels={'Country': 'Negara',
                                'Total Attacks': 'Total Aksi Teroris'},
                        text_auto='.2s',
@@ -410,7 +395,7 @@ with st.container():
     
     # Membuat histogram menggunakan plotly
     fig = px.histogram(df_sorted, x='WeaponType', y='Total Attacks',
-                       title=f'Total Aksi Teroris Berdasarkan Jenis Senjata - Years: {", ".join(str(year) for year in selected_years)}, Weapons: {", ".join(selected_weapon)}',
+                       title=f'Total Aksi Teroris Berdasarkan Jenis Senjata',
                        labels={'WeaponType': 'Senjata',
                                'Total Attacks': 'Total Aksi'},
                        text_auto='.2s',
