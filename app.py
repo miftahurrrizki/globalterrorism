@@ -1,24 +1,20 @@
 import pandas as pd
 import streamlit as st
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.express as px
-import folium
-from streamlit_folium import st_folium
-from streamlit_folium import folium_static
 from streamlit_echarts import st_echarts
-import plotly.graph_objects as go
 from chart_utils import *
 
 
-def read_csv(url):
-    df = pd.read_csv(url)
-    return df
+@st.cache_data
+def get_csv_gcs(bucket_name, file_name):
+    csv_data = pd.read_csv('gs://' + bucket_name + '/' + file_name, encoding='utf-8')  
+    # csv_data = pd.read_excel('gs://' + bucket_name + '/' + file_name, encoding='utf-8')    
+    return csv_data
 
-
+bucket_name = "mainpads/dataset"
+file_name = "globalterrorism1.csv"
 
 judul = 'Global Terrorism Analysis'
-sub = 'Kelompok Yaudaaaaah'
+sub = 'Kelompok Yaaaudah'
 
 st.set_page_config(page_title = judul,
                    page_icon = ":skull:",
@@ -28,7 +24,7 @@ st.title(judul)
 st.caption(sub)
 
 
-df = read_csv('globalterrorism1.csv')
+df = get_csv_gcs(bucket_name,file_name)
 
 
 # total events
@@ -64,7 +60,8 @@ else:
 
 # ----------MAP PERSEBARAN----------
 with st.container():
-    map_plot(filtered_df)
+    st.map(filtered_df[["latitude","longitude"]])
+# st.write(filtered_df.columns.values)
 # ----------JML AKSI PER NEGARA----------
 # Menghitung total aksi teroris per negara setelah diterapkan filter
 with st.container():

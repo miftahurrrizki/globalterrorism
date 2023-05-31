@@ -1,3 +1,4 @@
+
 import pandas as pd
 import streamlit as st
 import numpy as np
@@ -32,7 +33,7 @@ def map_plot(filtered_df):
             folium.Marker(location, tooltip=tooltip).add_to(map)
 
     # Menampilkan peta di Streamlit
-    folium_static(map, width=1300, height=450)
+    return map
 
 @st.cache_data(show_spinner=True)
 def actionpercountry_plot(filtered_df):
