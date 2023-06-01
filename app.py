@@ -9,6 +9,7 @@ from streamlit_folium import folium_static
 from streamlit_echarts import st_echarts
 import plotly.graph_objects as go
 from chart_utils import *
+from machinelearning import *
 
 
 def read_csv(url):
