@@ -31,12 +31,22 @@ st.caption(sub)
 df = read_csv('globalterrorism1.csv')
 
 
+# ----------SIDEBAR----------
+st.sidebar.header("Silahkan Filter Disini:")
+selected_countries = st.sidebar.multiselect('Select Country(s)', options=[
+    'Lihat Seluruh Negara'] + list(df['Country'].unique()))
+
+if 'Lihat Seluruh Negara' in selected_countries:
+    filtered_df = df
+else:
+    filtered_df = df[(df['Country'].isin(selected_countries))]
+
 # total events
-total_events = df['Year'].count()
+total_events = filtered_df['Year'].count()
 # total victims
-total_victims = df['Killed'].sum() + df['Wounded'].sum()
+total_victims = filtered_df['Killed'].sum() + filtered_df['Wounded'].sum()
 # total groupname
-total_groupnamex = df['GroupName'].unique()
+total_groupnamex = filtered_df['GroupName'].unique()
 total_groupname = len(total_groupnamex)
 
 column1, column2, column3 = st.columns(3)
@@ -52,15 +62,6 @@ with column3:
     st.subheader('Total Terrorist Group:')
     st.subheader(len(total_groupnamex))
 
-# ----------SIDEBAR----------
-st.sidebar.header("Silahkan Filter Disini:")
-selected_countries = st.sidebar.multiselect('Select Country(s)', options=[
-    'Lihat Seluruh Negara'] + list(df['Country'].unique()))
-
-if 'Lihat Seluruh Negara' in selected_countries:
-    filtered_df = df
-else:
-    filtered_df = df[(df['Country'].isin(selected_countries))]
 
 # ----------MAP PERSEBARAN----------
 with st.container():
