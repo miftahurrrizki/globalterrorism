@@ -5,9 +5,10 @@ from chart_utils import *
 
 
 @st.cache_data
-def get_csv_gcs(bucket_name, file_name):
-    csv_data = pd.read_csv('gs://' + bucket_name + '/' + file_name, encoding='utf-8')  
-    # csv_data = pd.read_excel('gs://' + bucket_name + '/' + file_name, encoding='utf-8')    
+def get_csv_gcs(file_name):
+    # csv_data = pd.read_csv('gs://' + bucket_name + '/' + file_name, encoding='utf-8')  
+    # csv_data = pd.read_excel('gs://' + bucket_name + '/' + file_name, encoding='utf-8')
+    csv_data = pd.read_csv(file_name)    
     return csv_data
 
 bucket_name = "mainpads/dataset"
@@ -24,7 +25,7 @@ st.title(judul)
 st.caption(sub)
 
 
-df = get_csv_gcs(bucket_name,file_name)
+df = get_csv_gcs(file_name)
 
 
 # total events
@@ -49,7 +50,6 @@ with column3:
     st.subheader(len(total_groupnamex))
 
 # ----------SIDEBAR----------
-st.sidebar.header("Silahkan Filter Disini:")
 selected_countries = st.sidebar.multiselect('Select Country(s)', options=[
     'Lihat Seluruh Negara'] + list(df['Country'].unique()))
 
